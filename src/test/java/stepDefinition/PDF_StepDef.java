@@ -28,10 +28,10 @@ public class PDF_StepDef {
 
     @Given("I have a {string} PDF URL")
     public void iHaveAPDFURL(String filename) {
-        if (filename == Constants.SOC_369_Agency_Relative_Guardianship_Disclosure)
-        {
-            pdfFileURL = Constants.SOC_369_Agency_Relative_Guardianship_Disclosure_Path;
-        }
+        if (filename.equals(Constants.SOC_369_Agency_Relative_Guardianship_Disclosure))
+        {             pdfFileURL = Constants.SOC_369_Agency_Relative_Guardianship_Disclosure_Path; }
+        else if (filename.equals(Constants.STRTP_Admission_Agreement_By_Agency))
+        {             pdfFileURL = Constants.STRTP_Admission_Agreement_By_Agency_Path; }
 
     }
 
@@ -41,7 +41,13 @@ public class PDF_StepDef {
         switch (fileName)
         {
             case SOC_369_Agency_Relative_Guardianship_Disclosure:
-                Constants.pageCount = 4; break;
+                Constants.pageCount = 4;
+                headerValue = SOC_369_Agency_Relative_Guardianship_Disclosure_Header;
+                break;
+            case STRTP_Admission_Agreement_By_Agency:
+                Constants.pageCount = 8;
+                headerValue =STRTP_Admission_Agreement_By_Agency_Header;
+                break;
         }
         File file1 = new File(pdfFileURL);
         PDDocument document = PDDocument.load(file1);
@@ -51,7 +57,7 @@ public class PDF_StepDef {
             System.out.println("Page count tallied");
         }
 
-        boolean headerValidated = validateHeader(document, "AGENCY-RELATIVE GUARDIANSHIP");
+        boolean headerValidated = validateHeader(document, headerValue);
         if (headerValidated) {
             System.out.println("Header validated successfully");
         } else {
@@ -59,7 +65,7 @@ public class PDF_StepDef {
         }
 
         document.close();
-          }
+    }
 
     public static int getPageCount(PDDocument doc) {
         //get the total number of pages in the pdf document
