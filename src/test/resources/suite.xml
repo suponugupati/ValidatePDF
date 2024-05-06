@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="SequentialSuite" verbose="2">
+    <test name="SequentialTest">
+        <classes>
+            <class name="testrunners.MyTestRunner" />
+            <!-- Add more classes here if needed -->
+        </classes>
+    </test>
+</suite>
+
