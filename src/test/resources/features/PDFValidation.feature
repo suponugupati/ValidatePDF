@@ -1,4 +1,4 @@
-@PDFValidation
+@PDFValidation @Regression
 Feature: Validate content of a PDF file
 
 
@@ -10,6 +10,8 @@ Feature: Validate content of a PDF file
     | Parameter |
     | SOC_369_Agency_Relative_Guardianship_Disclosure |
      |STRTP Admission Agreement By Agency (SOC 154C) |
+  |     FP Agreement Child by Agency (SOC 156)-2      |
+     |FP Placement Agreement for NMD by Agency (SOC 156A)|
 
 
 

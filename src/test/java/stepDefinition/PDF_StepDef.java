@@ -32,6 +32,14 @@ public class PDF_StepDef {
         {             pdfFileURL = Constants.SOC_369_Agency_Relative_Guardianship_Disclosure_Path; }
         else if (filename.equals(Constants.STRTP_Admission_Agreement_By_Agency))
         {             pdfFileURL = Constants.STRTP_Admission_Agreement_By_Agency_Path; }
+        else if (filename.equals(FP_Agreement_Child_by_Agency_SOC_156_2))
+        {
+            pdfFileURL = FP_Agreement_Child_by_Agency_SOC_156_2_Path;
+        }
+        else if (filename.equals(FP_Placement_Agreement_for_NMD_by_Agency_SOC_156A))
+                { pdfFileURL = FP_Placement_Agreement_for_NMD_by_Agency_SOC_156A_Path;
+
+        }
 
     }
 
@@ -48,13 +56,35 @@ public class PDF_StepDef {
                 Constants.pageCount = 8;
                 headerValue =STRTP_Admission_Agreement_By_Agency_Header;
                 break;
+            case FP_Agreement_Child_by_Agency_SOC_156_2:
+                Constants.pageCount = 3;
+                headerValue =FP_Agreement_Child_by_Agency_SOC_156_2_header;
+                break;
+            case FP_Placement_Agreement_for_NMD_by_Agency_SOC_156A:
+                pageCount = 2;
+                headerValue = FP_Placement_Agreement_for_NMD_by_Agency_SOC_156A_Header;
+                break;
+
+
         }
         File file1 = new File(pdfFileURL);
         PDDocument document = PDDocument.load(file1);
 
+        // Instantiate PDFTextStripper class
+        PDFTextStripper pdfStripper = new PDFTextStripper();
+
+        // Get text content from the PDF
+        String text = pdfStripper.getText(document);
+
+        // Print the content
+        System.out.println(text);
+
         int totalpageofDocument1 = getPageCount(document);
         if (totalpageofDocument1 == pageCount) {
             System.out.println("Page count tallied");
+        } else {
+            System.out.println("Page count not tallied");
+            assert false : "Page count does not match expected value";
         }
 
         boolean headerValidated = validateHeader(document, headerValue);
@@ -62,6 +92,7 @@ public class PDF_StepDef {
             System.out.println("Header validated successfully");
         } else {
             System.out.println("Header validation failed");
+            assert false : "Header validation failed";
         }
 
         document.close();
