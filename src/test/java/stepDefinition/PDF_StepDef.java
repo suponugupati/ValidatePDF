@@ -1,8 +1,11 @@
 package stepDefinition;
 
 import Utils.Constants;
+import com.relevantcodes.extentreports.LogStatus;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import helpers.DriverFactory;
+import helpers.ExecutionHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -27,7 +30,10 @@ public class PDF_StepDef {
     public String expectedText;
 
     @Given("I have a {string} PDF URL")
-    public void iHaveAPDFURL(String filename) {
+    public void iHaveAPDFURL(String filename) throws Throwable {
+
+        ExecutionHelper.startTest("My test");
+
         if (filename.equals(Constants.SOC_369_Agency_Relative_Guardianship_Disclosure))
         {             pdfFileURL = Constants.SOC_369_Agency_Relative_Guardianship_Disclosure_Path; }
         else if (filename.equals(Constants.STRTP_Admission_Agreement_By_Agency))
@@ -82,9 +88,13 @@ public class PDF_StepDef {
         int totalpageofDocument1 = getPageCount(document);
         if (totalpageofDocument1 == pageCount) {
             System.out.println("Page count tallied");
+            ExecutionHelper.getLogger().log(LogStatus.PASS, "Page count tallied" +ExecutionHelper.getLogger());
+
         } else {
             System.out.println("Page count not tallied");
             assert false : "Page count does not match expected value";
+            ExecutionHelper.getLogger().log(LogStatus.PASS, "Page count NOT tallied");
+
         }
 
         boolean headerValidated = validateHeader(document, headerValue);
@@ -96,6 +106,7 @@ public class PDF_StepDef {
         }
 
         document.close();
+        flushit();
     }
 
     public static int getPageCount(PDDocument doc) {
@@ -118,4 +129,14 @@ public class PDF_StepDef {
         return allText.toString().contains(expectedHeader);
     }
 
+    public static void flushit()
+    {
+        // Call extentReportFlush() method after all tests have been executed
+        try {
+            ExecutionHelper.extentReportFlush();
+        } catch (Exception exception) {
+            // Handle any exceptions that may occur during flushing
+            exception.printStackTrace();
+        }
+    }
 }
